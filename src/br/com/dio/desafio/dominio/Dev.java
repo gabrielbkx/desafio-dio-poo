@@ -2,6 +2,7 @@ package br.com.dio.desafio.dominio;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Dev {
@@ -9,9 +10,22 @@ public class Dev {
     private Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
 
-    public void inscreverBootcamp(BootCamp bootcamp){}
-    public void progredir(){}
-    public void calculaTotalrXp(){}
+    public void inscreverBootcamp(BootCamp bootcamp){
+        this.conteudosInscritos.addAll(bootcamp.getConteudos());
+        bootcamp.getDevisInscritos().add(this);
+    }
+    public void progredir(){
+        Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
+        if (conteudo.isPresent()){
+            this.conteudosConcluidos.add(conteudo.get());
+            this.conteudosInscritos.remove(conteudo.get());
+        }else{
+            System.err.println("Você não esta matriculado em nenhum conteúdo.");
+        }
+    }
+    public double calcularTotalXp(){
+        return this.conteudosConcluidos.stream().mapToDouble(Conteudo::calcularxp).sum();
+    }
 
     public String getNome() {
         return nome;
@@ -48,5 +62,14 @@ public class Dev {
     @Override
     public int hashCode() {
         return Objects.hashCode(nome);
+    }
+
+    @Override
+    public String toString() {
+        return "Dev{" +
+                "nome='" + nome + '\'' +
+                ", conteudosInscritos=" + conteudosInscritos +
+                ", conteudosConcluidos=" + conteudosConcluidos +
+                '}';
     }
 }

@@ -9,6 +9,7 @@ public class Curso extends Conteudo {
     public double calcularxp() {
         return XP_PADRAO * cargaHoraria;
     }
+
     public Curso() {
     }
 
@@ -22,11 +23,7 @@ public class Curso extends Conteudo {
 
     @Override
     public String toString() {
-        return "Curso{" +
-                "titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", cargaHoraria=" + cargaHoraria +
-                '}';
-    }
+        return getTitulo() + " " + getDescricao() + " " + cargaHoraria;
 
+    }
 }
